@@ -7,11 +7,14 @@ public class ChessCode : MonoBehaviour
 {
     private Grid<MapStateObject> grid;
     [SerializeField] private ChessDisplayCode chessDisplayCode;
+    [SerializeField] private Player player;
+    private bool turn;
     // Start is called before the first frame update
     void Start()
     {
         grid = new Grid<MapStateObject>(10, 5, 10f, Vector3.zero, (Grid<MapStateObject> g, int x, int y) => new MapStateObject(g, x, y));
         chessDisplayCode.SetGrid(grid);
+        player.SetGrid(grid);
     }
 
     // Update is called once per frame
@@ -31,6 +34,12 @@ public class ChessCode : MonoBehaviour
             if (mapStateObject != null){
                 mapStateObject.FlipDamage();
            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.F)){
+            Vector3 position = UtilsClass.GetMouseWorldPosition();
+            MapStateObject mapStateObject = grid.GetGridObject(position);
+            Debug.Log(mapStateObject.active);
         }
     }
 }
